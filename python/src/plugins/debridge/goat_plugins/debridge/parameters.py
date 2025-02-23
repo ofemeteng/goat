@@ -2,6 +2,10 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 
+class EmptyParameters(BaseModel):
+    pass
+
+
 class GetTokenListParameters(BaseModel):
     chainId: str = Field(description="ID of a chain")
 
@@ -44,7 +48,7 @@ class CreateOrderTransactionParameters(BaseModel):
     dstChainTokenOutAmount: Optional[str] = Field(
         default="auto",
         description=
-        "Amount of the target asset the market maker expects to receive upon order fulfillment."
+        "Amount of the target asset the market maker expects to receive upon order fulfillment.",
     )
     additionalTakerRewardBps: Optional[int] = Field(
         description=
@@ -85,12 +89,12 @@ class CreateOrderTransactionParameters(BaseModel):
     referralCode: Optional[float] = Field(
         default=31494,
         description=
-        "Your referral code which can be generated here: https://app.debridge.finance/refer"
+        "Your referral code which can be generated here: https://app.debridge.finance/refer",
     )
     affiliateFeePercent: Optional[float] = Field(
         default=0,
         description=
-        "The share of the input amount to be distributed to the affiliateFeeRecipient (if given) address as an affiliate fee"
+        "The share of the input amount to be distributed to the affiliateFeeRecipient (if given) address as an affiliate fee",
     )
     affiliateFeeRecipient: Optional[str] = Field(
         description=
@@ -115,16 +119,19 @@ class CreateOrderTransactionParameters(BaseModel):
     prependOperatingExpenses: Optional[bool] = Field(
         default=False,
         description=
-        "Tells API server to prepend operating expenses to the input amount")
+        "Tells API server to prepend operating expenses to the input amount",
+    )
     metadata: Optional[str] = Field(default=False, description="Metadata")
     ptp: Optional[bool] = Field(
         default=False,
         description=
-        "Forces a P2P order where input and output tokens are left intact")
+        "Forces a P2P order where input and output tokens are left intact",
+    )
     skipSolanaRecipientValidation: Optional[bool] = Field(
         default=False,
         description=
-        "Skip system address validation dstChainTokenOutRecipient in Solana")
+        "Skip system address validation dstChainTokenOutRecipient in Solana",
+    )
 
 
 class SingleChainSwapEstimationParameters(BaseModel):
@@ -136,13 +143,13 @@ class SingleChainSwapEstimationParameters(BaseModel):
     slippage: Optional[str] = Field(
         default="auto",
         description=
-        "A slippage constraint (in %) is a safeguard during swaps (on both source and destination chains, if applicable). It is also used to calculate the minimum possible outcome during estimation"
+        "A slippage constraint (in %) is a safeguard during swaps (on both source and destination chains, if applicable). It is also used to calculate the minimum possible outcome during estimation",
     )
     tokenOut: str = Field(description="An address of a target token")
     affiliateFeePercent: Optional[float] = Field(
         default=0,
         description=
-        "The share of the input amount to be distributed to the affiliateFeeRecipient (if given) address as an affiliate fee"
+        "The share of the input amount to be distributed to the affiliateFeeRecipient (if given) address as an affiliate fee",
     )
     affiliateFeeRecipient: Optional[str] = Field(
         description=
@@ -159,7 +166,7 @@ class SingleChainSwapTransactionParameters(BaseModel):
     slippage: Optional[str] = Field(
         default="auto",
         description=
-        "A slippage constraint (in %) is a safeguard during swaps (on both source and destination chains, if applicable). It is also used to calculate the minimum possible outcome during estimation"
+        "A slippage constraint (in %) is a safeguard during swaps (on both source and destination chains, if applicable). It is also used to calculate the minimum possible outcome during estimation",
     )
     tokenOut: str = Field(description="An address of a target token")
     tokenOutRecipient: str = Field(
@@ -167,7 +174,7 @@ class SingleChainSwapTransactionParameters(BaseModel):
     affiliateFeePercent: Optional[float] = Field(
         default=0,
         description=
-        "The share of the input amount to be distributed to the affiliateFeeRecipient (if given) address as an affiliate fee"
+        "The share of the input amount to be distributed to the affiliateFeeRecipient (if given) address as an affiliate fee",
     )
     affiliateFeeRecipient: Optional[str] = Field(
         description=
