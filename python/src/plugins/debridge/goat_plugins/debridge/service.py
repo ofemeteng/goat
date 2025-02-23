@@ -5,6 +5,7 @@ from .parameters import (
     CancelExternalCallParameters,
     CancelOrderParameters,
     CreateOrderTransactionParameters,
+    EmptyParameters,
     GetOrderDataParameters,
     GetOrderIDsParameters,
     GetOrderStatusParameters,
@@ -34,11 +35,12 @@ class DebridgeService:
     @Tool({
         "description":
         "Get details for the chains supported by the deBridge Liquidity Network",
+        "parameters_schema": EmptyParameters,
     })
-    async def get_supported_chains(self):
+    async def get_supported_chains(self, parameters: dict):
         """Get details for the chains supported by the deBridge Liquidity Network"""
-        return await self._fetch("/supported-chains-info",
-                                 "get supported chains")
+        url = f"{self.base_url}/supported-chains-info"
+        return await self._fetch(url, "get supported chains")
 
     @Tool({
         "description":
