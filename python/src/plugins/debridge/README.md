@@ -37,18 +37,22 @@ order_IDs = await plugin.get_order_IDs(
 ## Features
 
 - DLN
-    - Create order transaction
-    - Get order data
-    - Get order status
-    - Get order IDs
-    - Cancel order
-    - Cancel external call
+    - Create order transaction `create_order_transaction`
+    - Get order data `get_order_data`
+    - Get order status `get_order_status`
+    - Get order IDs `get_order_IDs`
+    - Cancel order `cancel_order`
+    - Cancel external call `cancel_external_call`
 - Utils
-    - Get supported chains
-    - Get token list
+    - Get supported chains `get_supported_chains`
+    - Get token list `get_token_list`
 - Single Chain Swap
-    - Estimation
-    - Transaction
+    - Estimation `single_chain_swap_estimation`
+    - Transaction `single_chain_swap_transaction`
+
+### DLN Swagger Docs
+The deBridge plugin tools is a 1-to-1 representation of the DLN API.
+You can access the [deBridge Swagger docs](https://dln.debridge.finance/v1.0) page for more information about the various parameters.
 
 ## License
 

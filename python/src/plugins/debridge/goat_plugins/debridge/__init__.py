@@ -10,6 +10,7 @@ class DebridgePluginOptions:
 
 
 class DebridgePlugin(PluginBase):
+
     def __init__(self, options: DebridgePluginOptions):
         super().__init__("debridge", [DebridgeService()])
 
