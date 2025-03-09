@@ -49,7 +49,7 @@ status = await wallet.get_transaction_status(
 You can integrate the embedded `SendEGLD` plugin to your agent to enable EGLD transfers like so:
 
 ```python
-from src.wallets.multiversx.goat_wallets.multiversx import send_egld
+from goat_wallets.multiversx import send_egld
 
 # Initialize tools with MultiversX wallet
 tools = get_on_chain_tools(
@@ -64,7 +64,7 @@ tools = get_on_chain_tools(
 
 A full working example demonstrating all the capabilities of the MultiversX wallet and plugin using GOAT SDK can be found in the gist below
 
-[GitHub Gist: MultiversX Example](https://example.com)
+[GitHub Gist: MultiversX Example](https://gist.github.com/ofemeteng/b848e953bbcd6630ad325f81c7cb5fc6)
 
 ## Tools Available
 
@@ -83,17 +83,17 @@ A full working example demonstrating all the capabilities of the MultiversX wall
 - Secure Key Management:
   - Seed phrase support
   - Address derivation
-  
+
 - Transaction Operations:
   - Transaction signing
   - Transaction sending
   - Status tracking
   - Signature verification
-  
+
 - Balance Management:
   - EGLD balance queries
   - Token account balance
-  
+
 - Network Support:
   - Mainnet
   - Testnet
