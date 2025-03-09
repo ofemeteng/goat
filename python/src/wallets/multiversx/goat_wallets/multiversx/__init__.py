@@ -1,6 +1,5 @@
 from .types import (
-    MultiversXTransactionStatus,
-)
+    MultiversXTransactionStatus, )
 
 from .wallet import (
     MultiversXWalletClient,
@@ -9,7 +8,6 @@ from .wallet import (
 )
 
 from .send_egld import SendEGLDPlugin, send_egld
-
 
 __all__ = [
     "MultiversXTransactionStatus",

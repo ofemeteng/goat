@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Dict, List, cast
 
 from pydantic import BaseModel, Field
@@ -15,13 +16,15 @@ class SendEGLDParameters(BaseModel):
 
 
 class SendEGLDPlugin(PluginBase[MultiversXWalletClient]):
+
     def __init__(self):
         super().__init__("sendEGLD", [])
 
     def supports_chain(self, chain: Chain) -> bool:
         return chain["type"] == "multiversx"
 
-    def get_tools(self, wallet_client: MultiversXWalletClient) -> List[ToolBase]:
+    def get_tools(self,
+                  wallet_client: MultiversXWalletClient) -> List[ToolBase]:
         send_tool = create_tool(
             config={
                 "name": "send_EGLD",
@@ -29,9 +32,9 @@ class SendEGLDPlugin(PluginBase[MultiversXWalletClient]):
                 "parameters": SendEGLDParameters,
             },
             execute_fn=lambda params: send_egld_method(
-                wallet_client, cast(Dict[str, str], params)
-            ),
+                wallet_client, cast(Dict[str, str], params)),
         )
+
         return [send_tool]
 
 
@@ -39,15 +42,15 @@ def send_egld() -> SendEGLDPlugin:
     return SendEGLDPlugin()
 
 
-def send_egld_method(wallet_client: MultiversXWalletClient, parameters: Dict[str, str]) -> str:
+def send_egld_method(wallet_client: MultiversXWalletClient,
+                     parameters: Dict[str, str]) -> str:
     try:
-        tx = wallet_client.send_transaction(
-            {
-                "receiver": parameters["receiver"],
-                "native_amount": parameters["native_amount"],
-            }
-        )
-        return tx["hash"]
+        native_amount = int(
+            Decimal(parameters["native_amount"]) * Decimal("1e18"))
+        tx = wallet_client.send_transaction({
+            "receiver": parameters["receiver"],
+            "native_amount": native_amount,
+        })
+        return tx
     except Exception as error:
         raise Exception(f"Failed to send EGLD: {str(error)}")
-
