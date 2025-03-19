@@ -15,8 +15,16 @@ import {
     USDCEth,
     USDCPolygon,
 } from "@irys/upload-ethereum";
+import {
+    DownloadDataParameters,
+    FundAccountParameters,
+    FundResponse,
+    UploadDataParameters,
+    UploadFileParameters,
+    UploadFolderParameters,
+    UploadResponse,
+} from "./parameters";
 import type { IrysPluginOptions } from "./types/IrysPluginOptions";
-import { DownloadDataParameters, FundAccountParameters, FundResponse, UploadDataParameters, UploadFileParameters, UploadFolderParameters, UploadResponse } from "./parameters";
 
 export class IrysService {
     private privateKey: string;
@@ -52,18 +60,21 @@ export class IrysService {
         if (!tokenConstructor) {
             throw new Error(`Token '${tokenName}' not supported`);
         }
-        this.tokenConstructor = tokenConstructor
+        this.tokenConstructor = tokenConstructor;
     }
 
     private async getIrysUploader() {
         try {
-            if (this.network == "testnet") {
+            if (this.network === "testnet") {
                 const irysUploader = await Uploader(this.tokenConstructor).withWallet(this.privateKey);
                 return irysUploader;
-            } else {
-                const irysUploader = await Uploader(this.tokenConstructor).withWallet(this.privateKey).withRpc(this.rpcURL).devnet();
-                return irysUploader;
             }
+
+            const irysUploader = await Uploader(this.tokenConstructor)
+                .withWallet(this.privateKey)
+                .withRpc(this.rpcURL)
+                .devnet();
+            return irysUploader;
         } catch (error) {
             console.error("Error getting Irys uploader", error);
             throw error;
@@ -86,7 +97,7 @@ export class IrysService {
                 reward: Number(irysUploader.utils.fromAtomic(fundTx.reward)),
                 target: fundTx.target,
                 token: irysUploader.token,
-            }
+            };
         } catch (e) {
             console.log("Error when funding ", e);
             throw new Error(`Error when funding: ${e}`);
@@ -105,7 +116,7 @@ export class IrysService {
             const receipt = await irysUploader.upload(dataToUpload);
             return {
                 id: receipt.id,
-            }
+            };
         } catch (e) {
             console.log("Error when uploading ", e);
             throw new Error(`Error when uploading: ${e}`);
@@ -123,10 +134,12 @@ export class IrysService {
         const tags = [{ name: name, value: value }];
 
         try {
-            const receipt = await irysUploader.uploadFile(filePath, { tags: tags });
+            const receipt = await irysUploader.uploadFile(filePath, {
+                tags: tags,
+            });
             return {
                 id: receipt.id,
-            }
+            };
         } catch (e) {
             console.log("Error when uploading ", e);
             throw new Error(`Error when uploading: ${e}`);
@@ -142,7 +155,7 @@ export class IrysService {
         const irysUploader = await this.getIrysUploader();
 
         try {
-            const receipt = await irysUploader.uploadFolder("./" + folderPath, {
+            const receipt = await irysUploader.uploadFolder(`./${folderPath}`, {
                 indexFile: indexFile,
                 batchSize: batchSize,
                 keepDeleted: keepDeleted,
@@ -151,10 +164,10 @@ export class IrysService {
             if (receipt) {
                 return {
                     id: receipt.id,
-                }
-            } else {
-                throw new Error("Error when uploading");
+                };
             }
+
+            throw new Error("Error when uploading");
         } catch (e) {
             console.log("Error when uploading ", e);
             throw new Error(`Error when uploading: ${e}`);
@@ -175,6 +188,7 @@ export class IrysService {
             }
 
             const fileUrl = response.url;
+
             const fileResponse = await fetch(fileUrl);
 
             if (!fileResponse.ok) {
@@ -185,11 +199,19 @@ export class IrysService {
             const contentType = fileResponse.headers.get("content-type");
 
             if (contentType?.includes("application/json")) {
-                return { data: await fileResponse.json(), type: "json", url: fileUrl };
+                return {
+                    data: await fileResponse.json(),
+                    type: "json",
+                    url: fileUrl,
+                };
             }
 
             if (contentType?.includes("text")) {
-                return { data: await fileResponse.text(), type: "text", url: fileUrl };
+                return {
+                    data: await fileResponse.text(),
+                    type: "text",
+                    url: fileUrl,
+                };
             }
 
             const blob = await fileResponse.blob();
@@ -197,14 +219,24 @@ export class IrysService {
             if (contentType?.includes("image")) {
                 return new Promise((resolve, reject) => {
                     const reader = new FileReader();
-                    reader.onloadend = () => resolve({ data: reader.result as string, type: "image", contentType, url: fileUrl });
+                    reader.onloadend = () =>
+                        resolve({
+                            data: reader.result as string,
+                            type: "image",
+                            contentType,
+                            url: fileUrl,
+                        });
                     reader.onerror = reject;
                     reader.readAsDataURL(blob); // Convert image Blob to Base64
                 });
             }
 
-            return { data: await blob.text(), type: "blob-text", contentType, url: fileUrl }; // Return raw text from Blob
-
+            return {
+                data: await blob.text(),
+                type: "blob-text",
+                contentType,
+                url: fileUrl,
+            }; // Return raw text from Blob
         } catch (e) {
             console.error("Error when downloading ", e);
             throw new Error(`Error when downloading: ${e}`);

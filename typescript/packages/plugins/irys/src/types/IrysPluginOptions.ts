@@ -1,4 +1,4 @@
-import { IrysPaymentToken } from "../parameters"
+import { IrysPaymentToken } from "../parameters";
 
 export type IrysNetwork = "testnet" | "devnet";
 

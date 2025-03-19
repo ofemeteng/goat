@@ -10,6 +10,7 @@
 The Irys Plugin for GOAT SDK enables the funding of accounts, uploading of data, files and folders to the Irys network and the downloading of data from the network.
 
 ## Installation
+
 ```bash
 npm install @goat-sdk/plugin-irys
 yarn add @goat-sdk/plugin-irys
@@ -17,6 +18,7 @@ pnpm add @goat-sdk/plugin-irys
 ```
 
 ## Usage
+
 ```typescript
 import { irys } from '@goat-sdk/plugin-irys';
 
@@ -32,11 +34,12 @@ const tools = await getOnChainTools({
 See full list of possible values for `paymentToken` in parameter `IrysPaymentToken`
 
 ## Tools
-* `fund_irys_account`
-* `upload_data`
-* `upload_file`
-* `upload_folder`
-* `download_data`
+
+- `fund_irys_account`
+- `upload_data`
+- `upload_file`
+- `upload_folder`
+- `download_data`
 
 <footer>
 <br/>
