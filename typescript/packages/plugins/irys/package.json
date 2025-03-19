@@ -31,6 +31,7 @@
     ],
     "dependencies": {
         "@goat-sdk/core": "workspace:*",
+        "@goat-sdk/wallet-evm": "workspace:*",
         "@irys/upload": "0.0.15",
         "@irys/upload-ethereum": "0.0.16",
         "zod": "catalog:"

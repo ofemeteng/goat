@@ -167,33 +167,33 @@ export class IrysService {
     })
     async downloadData(parameters: DownloadDataParameters) {
         const transactionId = parameters.transactionId;
-    
+
         try {
             const response = await fetch(`${this.baseUrl}/${transactionId}`);
             if (!response.ok) {
                 throw new Error(`HTTP status ${response.status}`);
             }
-    
+
             const fileUrl = response.url;
             const fileResponse = await fetch(fileUrl);
-    
+
             if (!fileResponse.ok) {
                 throw new Error(`HTTP status ${fileResponse.status}`);
             }
-    
+
             // Detect content type
             const contentType = fileResponse.headers.get("content-type");
-    
+
             if (contentType?.includes("application/json")) {
                 return { data: await fileResponse.json(), type: "json", url: fileUrl };
-            } 
-            
+            }
+
             if (contentType?.includes("text")) {
                 return { data: await fileResponse.text(), type: "text", url: fileUrl };
-            } 
-            
+            }
+
             const blob = await fileResponse.blob();
-    
+
             if (contentType?.includes("image")) {
                 return new Promise((resolve, reject) => {
                     const reader = new FileReader();
@@ -202,9 +202,9 @@ export class IrysService {
                     reader.readAsDataURL(blob); // Convert image Blob to Base64
                 });
             }
-    
+
             return { data: await blob.text(), type: "blob-text", contentType, url: fileUrl }; // Return raw text from Blob
-    
+
         } catch (e) {
             console.error("Error when downloading ", e);
             throw new Error(`Error when downloading: ${e}`);

@@ -24,7 +24,7 @@ const tools = await getOnChainTools({
     wallet: // ...
     plugins: [
       // rpcURL is only required if network is devnet
-      irys({ privateKey: "your private key", paymentToken: "baseeth", network: "devnet", rpcURL: "https://base-sepolia.drpc.org" })
+      irys({ privateKey: "your EVM wallet private key", paymentToken: "baseeth", network: "devnet", rpcURL: "https://base-sepolia.drpc.org" })
     ]
 });
 ```
